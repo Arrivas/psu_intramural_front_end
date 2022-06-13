@@ -1,11 +1,18 @@
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useRouter } from 'next/router';
 import { CogIcon, LogoutIcon } from '@heroicons/react/outline';
+import { getCurrentUser } from '../../auth/Auth';
 import Link from 'next/link';
 import Head from 'next/head';
 import DashboardItem from '../dashboard/DashboardItem';
 interface DashboardCompProps {}
 
 const DashboardComp: React.FC<DashboardCompProps> = () => {
+  const router = useRouter();
+  useEffect(() => {
+    const getUser = getCurrentUser();
+    if (!getUser) router.replace('/login');
+  }, []);
   const items = [
     { id: 1, text: 'Teams', imgSrc: '/images/teams.png', path: '/teams' },
     { id: 2, text: 'Lineups', imgSrc: '/images/lineup.png', path: '/lineups' },
